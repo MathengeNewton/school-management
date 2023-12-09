@@ -1,0 +1,48 @@
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Page Not found {% endblock title %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  .link-text {
+    color: #000000 !important;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <main class="main-content  mt-0 signup-colors">
+    <section>
+      <div class="page-header min-vh-75">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+              <div class="card card-plain mt-8">
+                <div class="card-header pb-0 text-left bg-transparent">
+                  <h3 class="font-weight-bolder"  style="color:#00972C;">Oops! You seem lost.</h3>
+                </div>
+                <div class="card-body">
+                  <form role="form" method="POST">
+                    <div class="text-center">
+                      <a href={{url_for('index')}} type="submit" class="btn w-100 mt-4 mb-0 text-white" style="background:#00972C;">Return to familiar grounds</a>
+                    </div>
+                  </form>
+                </div>                
+              </div>
+            </div>
+            <div class=" col-xl-8 col-lg-7 col-md-6  d-flex justify-content-center align-items-center vh-40">              
+                <img src="{{ config.ASSETS_ROOT }}/img/site-logo.svg" alt="" class="h-40" />              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "includes/footer-fullscreen.html" %}
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
