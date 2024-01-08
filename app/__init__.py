@@ -33,9 +33,9 @@ app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 # initialize the app with the extension
 
 
-# def create_app():
-#     with app.app_context():
-#         create_database()
+def create_app():
+    with app.app_context():
+        create_database()
 
 # def create_database():
 #     if not os.path.exists("nation.db"):
@@ -77,6 +77,7 @@ swagger = Swagger(app, template={
         "description": "Nation fashion week website api endpoints.",
     }
 })
+
 #register api endpoints
 # api.add_resource(RegisterVendor, '/api/vendors')
 # api.add_resource(RegisterCustomer, '/api/customers')

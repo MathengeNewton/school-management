@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from app import db, login_manager, bcrypt, Categories
+from ..extensions import db, login_manager, bcrypt
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -14,19 +14,19 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(64))
     email = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(128))
-    status = db.Column(db.Boolean, default=False)
-    category_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Categories.id'))
+    status = db.Column(db.Boolean, default=True)
     is_admin = db.Column(db.Boolean)
-    isActive = db.Column(db.Boolean, default=True)
+    is_parent = db.Column(db.Boolean)
+    category = db.Column(db.String(128))
     created_at = db.Column(db.Date)
     updated_at = db.Column(db.Date, nullable=True)
     
-    def __init__(self, username, password, email, category_id, is_admin, created_at):
+    def __init__(self, username, password, email,is_admin,is_parent, created_at):
         self.username = username
         self.email = email
         self.password = password
         self.created_at = created_at
-        self.category_id = category_id
+        self.is_parent = is_parent
         self.is_admin = is_admin
 
     def get_user_by_id(self):
@@ -42,8 +42,6 @@ class Users(UserMixin, db.Model):
     def get_user_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
     
-    @classmethod
-    def fetch_user_and_category(cls, email):
-        return cls.query.join(Categories, cls.category_id == Categories.id).filter_by(email=email).first()
+        
     
     
