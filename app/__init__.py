@@ -2,7 +2,7 @@
 import os
 from datetime import datetime
 from flask import Flask, request, redirect, url_for, render_template
-from .models import Users,  Categories
+from .models import Users, Subjects, Students, Classes,Results
 from dotenv import load_dotenv
 import os
 from .extensions import (
@@ -13,11 +13,6 @@ from .extensions import (
 )
 from .config import Config
 from flask_migrate import Migrate
-# from flask_restful import Api
-from flasgger import Swagger
-
-# Import api endpoints 
-# from .api import RegisterVendor, RegisterCustomer, RegisterSiteClick, GetCategories
 
 # create app
 app = Flask(__name__)
@@ -32,16 +27,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 # initialize the app with the extension
 
-
 def create_app():
     with app.app_context():
         create_database()
-
-# def create_database():
-#     if not os.path.exists("nation.db"):
-#         db.create_all()
-#         print("Database 'nation' created successfully.")
-        
 
 db.init_app(app)
 
@@ -59,32 +47,14 @@ with app.app_context():
     unhashedpass = os.getenv('SUPER_ADMIN_PASSWORD')
 
     # Check for the specific user
-    specific_user = Users.query.filter_by(username=user).first()
+    specific_user = Users.query.filter_by(name=user).first()
     if specific_user is None:
         password = bcrypt.generate_password_hash(unhashedpass).decode('utf-8')
         created_at = datetime.now() 
-        new_user = Users(username=user, email=email, password=password, created_at = created_at)
+        new_user = Users(name=user, email=email, password=password, is_admin=True,is_teacher=False, is_parent=False, created_at = created_at)
         db.session.add(new_user)
         db.session.commit()
         
-# API Section
-# api = Api(app)
-swagger = Swagger(app, template={
-    "swagger": "2.0",
-    "info": {
-        "title": "Nation Shopping Festival",
-        "version": "1.0",
-        "description": "Nation fashion week website api endpoints.",
-    }
-})
-
-#register api endpoints
-# api.add_resource(RegisterVendor, '/api/vendors')
-# api.add_resource(RegisterCustomer, '/api/customers')
-# api.add_resource(RegisterSiteClick, '/api/click')
-# api.add_resource(GetCategories, '/api/categories')
-
-
 # Flask Login Management
 @login_manager.user_loader
 def load_user(user_id):
