@@ -51,7 +51,7 @@ with app.app_context():
     if specific_user is None:
         password = bcrypt.generate_password_hash(unhashedpass).decode('utf-8')
         created_at = datetime.now() 
-        new_user = Users(name=user, email=email, password=password, is_admin=True,is_teacher=False, is_parent=False, created_at = created_at)
+        new_user = Users(name=user, email=email, password=password, is_admin=True,is_teacher=False, student_id="", is_parent=False, created_at = created_at)
         db.session.add(new_user)
         db.session.commit()
         

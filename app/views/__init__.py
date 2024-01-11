@@ -1,2 +1,3 @@
 from app import app, db
-from . import auth, home, clients, settings, vendors, analytics
+from .auth import login
+from .index import index
